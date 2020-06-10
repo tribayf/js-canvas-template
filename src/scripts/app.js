@@ -52,11 +52,11 @@ class App
 
   static __loop__({ currentTime: t1 = 0, previousTime: t0 = 0, appState: s0 })
   {
-    if (this.frameId_ == null) return
-
     let s1 = this.update({ deltaTime: t1-t0, appState: s0 })
 
     this.draw({ appState: s1 })
+
+    if (this.frameId_ == null) return
 
     this.frameId_ = requestAnimationFrame(time =>
       this.__loop__({ currentTime: time, previousTime: t1, appState: s1 }))
