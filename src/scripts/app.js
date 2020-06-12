@@ -9,9 +9,9 @@ class App
   static get canvas()  { return this.canvas_  }
   static get context() { return this.context_ }
 
-  static start()
+  static start(...{ config = { /* canvasId:"c", contextType:"2d" */ }})
   {
-    let state = this.init({ appState: {} })
+    let state = this.__init__({ config })
     this.frameId_ = window.requestAnimationFrame(_ => this.__loop__({ appState: state }))
   }
 
@@ -47,8 +47,19 @@ class App
 \* ------------------------------------------------------------------------------------ */
 
   static frameId_ = null
-  static canvas_  = document.getElementById("c")
-  static context_ = document.getElementById("c").getContext("2d")
+  static canvas_  = null
+  static context_ = null
+
+  static __init__({ config })
+  {
+    const id = config.canvasId    || "c"
+    const ty = config.contextType || "2d"
+
+    this.canvas_  = document.getElementById(id)
+    this.context_ = this.canvas_.getContext(ty)
+
+    return this.init({ appState: {} })
+  }
 
   static __loop__({ currentTime: t1 = 0, previousTime: t0 = 0, appState: s0 })
   {
