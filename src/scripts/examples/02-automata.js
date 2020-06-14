@@ -6,43 +6,43 @@ export class Automaton
   {
     const [ w, h, s ] = [640, 480, 2]
 
-    this.canvas.width  = w
-    this.canvas.height = h
-    const cols = Math.floor(w/s)
-    const rows = Math.floor(h/s)
-
-    state.canvas  = this.canvas
-    state.context = this.context
-
     state.rule = 30
+    state.cols = w/s
+    state.cellsize = s
 
-    state.dimensions = {
-      cols: cols,
-      rows: rows,
-      size: s,
+    state.buffer = {
+      canvas:  this.canvas,
+      context: this.context,
+      clear:  () => {
+        const { width:w, height:h } = state.buffer.canvas
+        state.buffer.context.fillStyle = 'black'
+        state.buffer.context.fillRect(0, 0, w, h)
+      }
     }
+    state.buffer.canvas.width  = w
+    state.buffer.canvas.height = h
+    state.buffer.clear()
 
-    state.generation = {
-      curr:  new Array(cols).fill(0),
-      grid:  new Array(rows).fill(new Array(cols).fill(0)),
-      count: 0
+    state.lattice = {
+      curr: new Array(w/s).fill(0),
+      next: new Array(w/s).fill(0),
+      swap: () => {
+        let  temp = state.lattice.curr
+        state.lattice.curr = state.lattice.next
+        state.lattice.next = temp
+      }
     }
-
-    state.generation.curr[
-      Math.floor(state.generation.curr.length / 2)
-    ] = 1
+    state.lattice.next[Math.floor(state.cols / 2)] = 1
 
     return state
   }
 
   static update({ appState: state })
   {
-    const { rows, cols } = state.dimensions
-    let   { curr, grid } = state.generation
+    state.lattice.swap()
 
-    // rotate the grid up one level
-    state.generation.grid = grid.slice(1)
-    state.generation.grid[rows-1] = curr
+    let cols = state.lattice.curr.length
+    let curr = state.lattice.curr
 
     let next = curr.map((_, col, fst=0, lst=cols-1) => {
       const a = curr[col-1] === undefined ? curr[lst] : curr[col-1],
@@ -54,32 +54,23 @@ export class Automaton
 
       return cellval
     })
-    state.generation.curr = next
-    state.generation.count += 1
+    state.lattice.next = next
 
     return state
   }
 
   static draw({ appState: state })
   {
-    this.clearCanvas()
+    const l = state.lattice.curr
+    const s = state.cellsize
+    const { canvas, context } = state.buffer
 
-    const s = state.dimensions.size
-    const { grid } = state.generation
+    context.drawImage(canvas, 0, -s)
 
-    state.context.fillStyle = 'white'
-
-    grid.map((curr, row) => {
-      curr.map((cell, col) => {
-        if (cell) state.context.fillRect(s*col, s*row, s,s)
-      })
+    const y = canvas.height-s
+    l.map((cell, col)=> {
+      context.fillStyle = cell ? 'white' : 'black'
+      context.fillRect(s*col, y, s, s)
     })
-  }
-
-  static clearCanvas()
-  {
-    const { width:w, height:h } = this.canvas
-    this.context.fillStyle = 'black'
-    this.context.fillRect(0, 0, w, h)
   }
 }
