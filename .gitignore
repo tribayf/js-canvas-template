@@ -1,3 +1,4 @@
-.scratch
+.*
+!.gitignore
 app
 node_modules
