@@ -1,8 +1,10 @@
 {
   "name": "js-canvas-template",
   "main": "index.js",
+  "scripts": { },
   "babel": {
     "plugins": [
+      "@babel/plugin-transform-modules-commonjs",
       "@babel/plugin-proposal-class-properties"
     ],
     "presets": [
@@ -16,11 +18,12 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/register": "^7.10.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/register": "^7.10.3",
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.1",
@@ -33,7 +36,6 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
-  "scripts": {},
   "dependencies": {
     "core-js": "^3.6.5"
   }
