@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const gulp       = require('gulp')
 const sourcemaps = require('gulp-sourcemaps')
@@ -13,7 +13,6 @@ const source     = require('vinyl-source-stream')
 
 const bsync      = require('browser-sync').create()
 const del        = require('del')
-
 
 const paths = {
   styles: {
