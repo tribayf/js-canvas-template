@@ -1,7 +1,10 @@
 {
   "name": "js-canvas-template",
   "main": "index.js",
-  "scripts": { },
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch"
+  },
   "babel": {
     "plugins": [
       "@babel/plugin-transform-modules-commonjs",
@@ -33,6 +36,8 @@
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.2.0",
+    "jasmine": "^3.5.0",
+    "jest": "^26.1.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
