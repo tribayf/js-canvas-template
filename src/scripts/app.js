@@ -8,10 +8,12 @@ class App
 
   static get canvas()  { return this.canvas_  }
   static get context() { return this.context_ }
+  static get config()  { return this.config_  }
 
-  static start(...{ config = { /* canvasId:"c", contextType:"2d" */ }})
+  static start(appState)
   {
-    let state = this.__init__({ config })
+    let config = this.__init__(this.config_)
+    let state = { ...config, ...appState }
     this.frameId_ = window.requestAnimationFrame(_ => this.__loop__({ appState: state }))
   }
 
@@ -26,7 +28,7 @@ class App
 \* ------------------------------------------------------------------------------------ */
 
   /* Optional */
-  static init ({ appState: state }) { return state }
+  static init (config) { /* user supplied method */ }
 
   /* Required */
   static update({ deltaTime: dt, appState: state })
@@ -49,16 +51,17 @@ class App
   static frameId_ = null
   static canvas_  = null
   static context_ = null
+  static config_  = null
 
-  static __init__({ config })
+  static __init__(config)
   {
-    const id = config.canvasId    || "c"
-    const ty = config.contextType || "2d"
+    const cf = config         || {}
+    const id = cf.canvasId    || "c"
+    const ty = cf.contextType || "2d"
 
-    this.canvas_  = document.getElementById(id)
+    this.canvas_  = cf.canvas || document.getElementById(id)
     this.context_ = this.canvas_.getContext(ty)
-
-    return this.init({ appState: {} })
+    return this.init(cf)
   }
 
   static __loop__({ currentTime: t1 = 0, previousTime: t0 = 0, appState: s0 })
@@ -81,4 +84,3 @@ export function MakeApp(Cls)
   Object.defineProperties(Wrapped, Object.getOwnPropertyDescriptors(Cls))
   return Wrapped
 }
-

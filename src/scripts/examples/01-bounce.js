@@ -31,11 +31,12 @@ export class Bounce
    *  You may define any app-specific state data that you require here. It is also a good
    *  place to set the desired size for your canvas.
    */
-  static init({ appState: state })
+  static init(config)
   {
     this.canvas.width  = 640
     this.canvas.height = 480
 
+    let state = {}
     state.dims = {
       w: this.canvas.width,
       h: this.canvas.height,

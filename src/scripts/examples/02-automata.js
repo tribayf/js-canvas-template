@@ -2,10 +2,11 @@
 
 export class Automaton
 {
-  static init({ appState: state })
+  static init(config)
   {
     const [ w, h, s ] = [640, 480, 2]
 
+    const state = {}
     state.rule = 30
     state.cols = w/s
     state.cellsize = s
