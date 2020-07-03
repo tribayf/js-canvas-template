@@ -12,7 +12,7 @@ class App
 
   static start(appState)
   {
-    let config = this.__init__(this.config_)
+    let config = this.init(this.config_)
     let state = { ...config, ...appState }
     this.frameId_ = window.requestAnimationFrame(_ => this.__loop__({ appState: state }))
   }
@@ -61,7 +61,7 @@ class App
 
     this.canvas_  = cf.canvas || document.getElementById(id)
     this.context_ = this.canvas_.getContext(ty)
-    return this.init(cf)
+    this.config_ = cf
   }
 
   static __loop__({ currentTime: t1 = 0, previousTime: t0 = 0, appState: s0 })
@@ -77,10 +77,13 @@ class App
   }
 }
 
-export function MakeApp(Cls)
+export function MakeApp(Cls, config)
 {
   let Wrapped = {}
   Object.defineProperties(Wrapped, Object.getOwnPropertyDescriptors(App))
   Object.defineProperties(Wrapped, Object.getOwnPropertyDescriptors(Cls))
+
+  Wrapped.__init__(config || {})
+
   return Wrapped
 }
