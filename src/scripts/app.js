@@ -79,11 +79,21 @@ class App
 
 export function MakeApp(Cls, config)
 {
-  let Wrapped = {}
-  Object.defineProperties(Wrapped, Object.getOwnPropertyDescriptors(App))
-  Object.defineProperties(Wrapped, Object.getOwnPropertyDescriptors(Cls))
+  function Merge(target, source)
+  {
+    const props = Object.getOwnPropertyDescriptors(source)
+    delete props.prototype
+    Object.defineProperties(target, props)
 
-  Wrapped.__init__(config || {})
+    const symbs = Object.getOwnPropertySymbols(source)
+    Object.defineProperties(target, symbs)
+  }
 
-  return Wrapped
+  let Merged = {}
+  Merge(Merged, App)
+  Merge(Merged, Cls)
+
+  Merged.__init__(config)
+
+  return Merged
 }
