@@ -18,7 +18,7 @@
  *    https://developer.mozilla.org/en-US/docs/Glossary/Canvas
  *
  */
-export class Bounce
+export default class Bounce
 {
   /** init [Optional]
    *

@@ -1,6 +1,6 @@
 'use strict'
 
-export class Automaton
+export default class Automaton
 {
   static init(config)
   {

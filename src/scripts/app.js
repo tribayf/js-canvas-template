@@ -77,7 +77,7 @@ class App
   }
 }
 
-export function MakeApp(Cls, config)
+export default function MakeApp(Cls, config)
 {
   function Merge(target, source)
   {
