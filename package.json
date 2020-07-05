@@ -3,7 +3,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch"
+    "watch": "jest --watchAll"
   },
   "babel": {
     "plugins": [
